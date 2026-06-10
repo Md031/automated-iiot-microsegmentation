@@ -1,11 +1,11 @@
-# Master-Thesis
+# Master Thesis
 This repository contains the implementation used for the master thesis:
 
 **Securing IIoT Environments: Preventing Lateral Movement through Automated Micro-Segmentation**
 
 The thesis studies the automated micro-segmentation approach proposed by Arifeen et al. and evaluates its behavior on larger network intrusion datasets. The original work was limited to a small sample of network flows. This project therefore re-implements the main pipeline and tests it on IoT-23, IoTID20, and UNSW-NB15 to analyze whether the approach remains practical and reliable at a larger scale.
 
-## 1. Usage
+## 1. Installation
 ```
 python3 -m venv venv
 source venv/bin/activate
@@ -18,7 +18,7 @@ pip install -r requirement.txt
 3. [IoT23](https://www.stratosphereips.org/datasets-iot23) (Note: Download the lighter version of the dataset): archive size ~9 GB
 
 ### 2.1. Dataset structure
-To run the pipeline, we recommend you to follow the structure described below :
+To run the pipeline, we recommend following the structure described below :
 ```
 ├── Dataset/           	# Place your extracted datasets here 
 │	├── iotId20 		# Contains the iotId20 dataset
@@ -34,7 +34,7 @@ To run the pipeline, we recommend you to follow the structure described below :
 ├── scripts/			# Python source code
 | README.md
 ```
-Otherwise, you can modify the parameters `<iotid20_path>`, `<unsw_path>`, and `<iot23_path>` on the file [config.py](scripts/config.py) to point to your custom directory.
+Otherwise, you can modify the parameters `<iotid20_path>`, `<unsw_path>`, and `<iot23_path>` in the file [config.py](scripts/config.py) to point to your custom directory.
 
 ## 3. Prepare data for ML
 The pipeline must be executed in order.
@@ -54,7 +54,7 @@ make optics DATASET=<dataset>
 make dt DATASET=<dataset>
 ```
 
-The following command can be used to run the full pipeline from the begining in order.
+The following command can be used to run the full pipeline from the beginning in order.
 
 ```
 make start DATASET=<dataset>
@@ -62,7 +62,9 @@ make start DATASET=<dataset>
 
 ## 4. Additional experiments
 
-The file [enriched_flows.py](scripts/enriched_flows.py) contains the different mitigation strategies presented on the thesis: training with feature enrichment, training with feature enrichment + class weighting. The default strategy used is the feature enrichment strategy.
+The file [enriched_flows.py](scripts/enriched_flows.py) contains the different mitigation strategies presented on the thesis: training with feature enrichment, training with feature enrichment + class weighting. This experiment is defined for IoT-23 specifically.
+
+The default strategy used is the feature enrichment strategy.
 
 ```
 python scripts/enriched_flows.py
