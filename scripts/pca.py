@@ -11,11 +11,11 @@ def find_optimal_PCA_nb(full_pca_model: PCAModel, pca_expl_var: float) -> int:
 	optimal_k = len(explained)
 	# Determine optimal k from variance
 	cumvar = explained.cumsum()
-	print(f"[DEBUG] cumvar : {cumvar}")
+	print(f"Cumulative variance : {cumvar}")
 	for i in range(len(cumvar)):
 		if cumvar[i] >= pca_expl_var:
-			print(f"[DEBUG] Optimal k found (PCA): {i}")
-			print(f"[DEBUG] Explained Variance: {cumvar[i]}")
+			print(f"Optimal k found (PCA): {i}")
+			print(f"Explained Variance: {cumvar[i]}")
 			return i + 1
 	# return k=len(explained) if the threshold is never reached
 	return optimal_k
@@ -40,7 +40,7 @@ def apply_pca(df: DataFrame, nb_col: int, config: DatasetConfig):
 	df_final = df_final.drop("pca_full", "scaled_features")
 	save_data(df_final, config.pca_path)
 	# Return label features + sliced PCA features
-	print("[DEBUG] Schema in PCA")
+	print("Schema in PCA")
 	df_final.printSchema() 
 
 	spark = df.sparkSession

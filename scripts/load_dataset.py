@@ -50,7 +50,7 @@ def load_unsw(spark: SparkSession, config: DatasetConfig):
 def save_data(df: DataFrame, path: str):
 	""" Save the df into parquet format for faster access when reused """
 	df.write.parquet(path, mode="overwrite")
-	print(f"[DEBUG] Processed data save at {path}")
+	print(f"Processed data save at {path}")
 
 def load_data(spark: SparkSession, path: str) -> DataFrame:
 	"""
@@ -90,11 +90,10 @@ def get_all_conn_files(dataset_dir: str) -> list[str]:
 	Returns:
 		list[str]: A list containing the paths of all conn.log.labeled files
 	"""
-	print("[DEBUG] Retrieving all conn.log.labeled files...")
+	print("Retrieving all conn.log.labeled files...")
 	conn_files_list = []
 	for dirpath, _, filename in os.walk(dataset_dir):	
 		for f in filename:
-			# print(f"[DEBUG] {f}")
 			if f.endswith("conn.log.labeled"):
 				conn_files_list.append(os.path.join(dirpath, f))
 	if not conn_files_list:
@@ -131,11 +130,11 @@ def load_iot23(spark: SparkSession, config: DatasetConfig) -> DataFrame:
 	
 def load_dataset(spark: SparkSession, dataset_choice: str, config: DatasetConfig) -> DataFrame:
 	if os.path.exists(config.saving_path):
-		print(f"[DEBUG] Data has already been pre-processed, loading it")
+		print(f"Data has already been pre-processed, loading it")
 		processed_df = load_data(spark, config.saving_path)
 		numeric_cols = get_num_columns(processed_df, config.label_features + config.noisy_features)
 	else: # the dataset has not bee pre-processed yet
-		print(f"[DEBUG] Data has not been pre-processed yet, loading all file from {config.path}")
+		print(f"Data has not been pre-processed yet, loading all file from {config.path}")
 		if config.name == "unsw":
 			df = load_unsw(spark, config)
 		elif config.name == "iotid20":
@@ -143,14 +142,14 @@ def load_dataset(spark: SparkSession, dataset_choice: str, config: DatasetConfig
 		elif config.name == "iot23":
 			df = load_iot23(spark, config)
 
-		print(f"[DEBUG] Number of features before pre processing {len(df.columns)}")
+		print(f"Number of features before pre processing {len(df.columns)}")
 		processed_df, numeric_cols = preprocessing(df, config)
 
 		# inside load_dataset(), after: processed_df, numeric_cols = preprocessing(df, config)
 		with open(f"{config.path}/feature_names.json", "w") as fp:
 			json.dump(numeric_cols, fp)
 		
-		print(f"[DEBUG] Feature names saved to {config.path}/feature_names.json")
-		print(f"[DEBUG] Number of features after pre processing {len(processed_df.columns)}")
+		print(f"Feature names saved to {config.path}/feature_names.json")
+		print(f"Number of features after pre processing {len(processed_df.columns)}")
 		save_data(processed_df, config.saving_path)
 	return processed_df, len(numeric_cols)

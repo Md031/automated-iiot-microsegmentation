@@ -23,7 +23,7 @@ def get_num_columns(df: DataFrame, protected_features: list[str]) -> list[str]:
 def labelEncoding(df: DataFrame, config: DatasetConfig) -> DataFrame:
 	""" Code inspired from here : https://stackoverflow.com/questions/30580410/how-to-do-labelencoding-or-categorical-value-in-apache-spark """
 	str_cols = get_str_cols(df, config.label_features + config.noisy_features)
-	print(f"[DEBUG] String columns: {str_cols}")
+	print(f"String columns: {str_cols}")
 	indexed_cols = []
 	for elem in str_cols:
 		indexed_cols.append(elem + "_index")
@@ -121,8 +121,7 @@ def drop_perfectly_correlated(df: DataFrame, corr_matrix, numeric_cols) -> DataF
 	return df
 
 def preprocessing(df: DataFrame, config: DatasetConfig) -> DataFrame:
-	print(f"[DEBUG] Starting pre-processing data")
-	# print(f"[DEBUG] Dropping noisy features {config.noisy_features}")
+	print(f"Starting pre-processing data")
 	
 	# save the uid columns and drop the noisy features
 	# df_preprocessing = df.drop(*config.noisy_features) # drop the unecessary features
