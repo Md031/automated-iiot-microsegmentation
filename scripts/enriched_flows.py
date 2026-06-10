@@ -205,14 +205,14 @@ def main():
 	df_enriched = rescale_behavioral_features(df_enriched)
 
 	
-	# print("Training enriched Decision Tree...")
-	# trained_model = train_dt_enriched(df_enriched, config)
+	print("Training enriched Decision Tree...")
+	trained_model = train_dt_enriched(df_enriched, config)
 
 	# print("Training enriched + weighted Decision Tree...")
 	# trained_model_weighted = train_dt_enriched_weighted(df_enriched, config)
 
-	print("Training enriched + stratified sampling Decision Tree...")	
-	trained_model_stratified = train_dt_enriched_stratified_sampling(df_enriched, config)
+	# print("Training enriched + stratified sampling Decision Tree...")	
+	# trained_model_stratified = train_dt_enriched_stratified_sampling(df_enriched, config)
 
 	# trained_model.write().overwrite().save(f"{config.path}/dt_model_enriched")
 
